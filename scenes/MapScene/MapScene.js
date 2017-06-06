@@ -1,4 +1,3 @@
-import Expo from "expo";
 import React, { Component } from "react";
 import {
   Container,
@@ -10,14 +9,21 @@ import {
   Button,
   Icon,
   Footer,
-  FooterTab
+  FooterTab,
+  Left,
+  Right,
+  Body
 } from "native-base";
+import { StyleSheet } from "react-native";
+import { Constants } from "expo";
+
+const styles = {
+  container: {
+    paddingTop: Constants.statusBarHeight
+  }
+};
 
 class MapScene extends Component {
-  _handleMapRegionChange = mapRegion => {
-    this.setState({ mapRegion });
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -72,16 +78,23 @@ class MapScene extends Component {
 
   render() {
     return (
-      <Container>
+      <Container style={styles.container}>
 
         <Header>
-          <Title>Header</Title>
-          <Button transparent>
-            <Icon name="ios-menu" />
-          </Button>
-        </Header>
+          <Left>
+            <Button transparent onPress={this.props.openDrawer}>
+              <Icon name="ios-menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>Header</Title>
+          </Body>
+          <Right />
 
+        </Header>
+        
         <Content padder>
+          <Text> {JSON.stringify(styles.title)} </Text>
           <H3>This is content section</H3>
           <Text style={{ marginTop: 10 }}>
             Selected tab is:
@@ -95,19 +108,19 @@ class MapScene extends Component {
         <Footer>
           <FooterTab>
             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
-              Apps
+              <Text>Apps</Text>
               <Icon name="ios-apps-outline" />
             </Button>
             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
-              Camera
+              <Text> Camera </Text>
               <Icon name="ios-camera-outline" />
             </Button>
             <Button active={this.state.tab3} onPress={() => this.toggleTab3()}>
-              Navigate
+              <Text>Navigate</Text>
               <Icon name="ios-compass" />
             </Button>
             <Button active={this.state.tab4} onPress={() => this.toggleTab4()}>
-              Contact
+              <Text>Contact</Text>
               <Icon name="ios-contact-outline" />
             </Button>
           </FooterTab>
