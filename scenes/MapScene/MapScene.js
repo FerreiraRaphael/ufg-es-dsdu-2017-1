@@ -14,13 +14,14 @@ import {
   Right,
   Body
 } from "native-base";
-import { StyleSheet } from "react-native";
-import { Constants } from "expo";
+import { StyleSheet, View } from "react-native";
+import { Constants, MapView } from "expo";
 
 const styles = {
   container: {
     paddingTop: Constants.statusBarHeight
-  }
+  },
+  title: { oijonatas: true }
 };
 
 class MapScene extends Component {
@@ -39,6 +40,10 @@ class MapScene extends Component {
       }
     };
   }
+
+  _handleMapRegionChange = mapRegion => {
+    this.setState({ mapRegion });
+  };
 
   toggleTab1() {
     this.setState({
@@ -103,24 +108,32 @@ class MapScene extends Component {
               ? 1
               : this.state.tab2 ? 2 : this.state.tab3 ? 3 : 4}
           </Text>
+          {this.state.tab3 &&  
+          <Container> 
+            <MapView
+            style={{ flex: 1 }}
+            region={this.state.mapRegion}
+            onRegionChange={this._handleMapRegionChange}
+          />
+          </Container>
+          }
         </Content>
-
         <Footer>
           <FooterTab>
             <Button active={this.state.tab1} onPress={() => this.toggleTab1()}>
-              <Text>Apps</Text>
+              <Text numberOfLines={1}>Apps</Text>
               <Icon name="ios-apps-outline" />
             </Button>
             <Button active={this.state.tab2} onPress={() => this.toggleTab2()}>
-              <Text> Camera </Text>
+              <Text numberOfLines={1}> Camera </Text>
               <Icon name="ios-camera-outline" />
             </Button>
             <Button active={this.state.tab3} onPress={() => this.toggleTab3()}>
-              <Text>Navigate</Text>
+              <Text numberOfLines={1}>Navigate</Text>
               <Icon name="ios-compass" />
             </Button>
             <Button active={this.state.tab4} onPress={() => this.toggleTab4()}>
-              <Text>Contact</Text>
+              <Text numberOfLines={1}>Contact</Text>
               <Icon name="ios-contact-outline" />
             </Button>
           </FooterTab>
