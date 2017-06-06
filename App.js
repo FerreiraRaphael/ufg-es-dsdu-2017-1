@@ -1,5 +1,7 @@
 import React from 'react';
 import MapScene from './scenes/MapScene/MapScene'
+import { Text } from 'react-native';
+import { Font, AppLoading } from 'expo';
 
 export default class App extends React.Component {
   constructor() {
@@ -11,7 +13,7 @@ export default class App extends React.Component {
   }
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       'Roboto': require('native-base/Fonts/Roboto.ttf'),
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
       'Ionicons': require('native-base/Fonts/Ionicons.ttf'),
@@ -22,10 +24,11 @@ export default class App extends React.Component {
 
   render() {
      if (!this.state.isReady) {
-      return <Expo.AppLoading />;
+      return <AppLoading />;
     }
     
     return (
+      
       <MapScene/>
     );
   }
