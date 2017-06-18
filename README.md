@@ -59,7 +59,7 @@ O objetivo do projeto é poder fornecer informações que promovam a segurança 
 **Testando a aplicação pelo dispositivo móvel:**
 >* Faça o download do app _Expo_ em seu dispositivo móvel;
 >* Após baixado e instalado, execute o mesmo;
->* Após realizado os procedimentos descritos em _cesse seu o diretório de seu projeto pelo prompt de comando_, no app Expo selecione a opção _Scan QR Code_;
+>* Após realizado os procedimentos descritos em _Acesse seu o diretório de seu projeto pelo prompt de comando_, no app Expo selecione a opção _Scan QR Code_;
 >* Escaneie o QR Code gerado após executar o comando npm start;
 >* Em alguns minutos toda a comunicação entre o projeto e o app recém compilado irá ser realizada e você verá sua aplicação React executando no celular;
 >* Qualquer alteração no código do projeto, enquanto este estiver sendo executado, poderá ser visualizado no seu dispositivo móvel (após alterar e salvar, o projeto é automaticamente recompilado para aparecer as alterações no celular(es) em que está(ão) sendo executado(s)).
