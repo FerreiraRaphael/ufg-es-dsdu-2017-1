@@ -1,5 +1,5 @@
 # **iSecurity** #
-Repositório para armazenar as informações do projeto final da disciplina de Desenvolvimento de Software para Dispositivos Móveis - INF/UFG - 2017/1.
+Repositório para armazenar as informações do projeto final da disciplina de Desenvolvimento de Software para Dispositivos Móveis - INF/UFG - 2017/1. O proejto foi realizado pelos alunos de Engenharia de Software Raphael Ferreira, João Henrique Camargo e Lucas Vinícios.
 
 Índice
 --- 
