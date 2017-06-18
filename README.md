@@ -5,7 +5,7 @@ Repositório para armazenar as informações do projeto final da disciplina de D
 --- 
 - [Sobre o projeto](#sobre-o-projeto)
 - [Integrações externas](#integrações-externas)
-- [Rodando o projeto](#como-faço-para-rodar-projeto)
+- [Rodando o projeto](#como-faço-para-rodar-projeto?)
 
 ## **Sobre o Projeto** ##
 
