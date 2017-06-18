@@ -3,7 +3,7 @@ Repositório para armazenar as informações do projeto final da disciplina de D
 
 Índice
 --- 
-- [Sobre o projeto](#Sobre o projeto)
+- [Sobre o projeto](#sobre-o-projeto)
 - [Integrações externas](#integrações-externas)
 - [Rodando o projeto](#como-roda-o-projeto)
 
