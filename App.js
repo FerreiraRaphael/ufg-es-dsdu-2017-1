@@ -1,6 +1,5 @@
 import React from 'react';
-import MapScene from './scenes/MapScene/MapScene'
-import { Text } from 'react-native';
+import Navigator from './containers/Navigator'
 import { Font, AppLoading } from 'expo';
 
 export default class App extends React.Component {
@@ -29,7 +28,7 @@ export default class App extends React.Component {
     
     return (
       
-      <MapScene/>
+      <Navigator/>
     );
   }
 }
