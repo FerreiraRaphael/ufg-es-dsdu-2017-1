@@ -10,48 +10,36 @@ import {
 } from "native-base";
 import styles from './styles';
 
-class SignInForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: ''
-    }
-  }
+const SignInForm = ({
+  onEmailChange,
+  onPasswordChange,
+  onSubmit
+}) => 
+  <Form>
+    <Item floatingLabel>
+      <Label>Email</Label>
+      <Input 
+        style={styles.input}
+        onChange={onEmailChange}/>
+    </Item>
+    <Item floatingLabel>
+      <Label>Senha</Label>
+      <Input 
+        style={styles.input}
+        onChange={onPasswordChange}/>
+    </Item>
+    <Button 
+      full 
+      onPress={onSubmit}
+      style={styles.button}>
+      <Text>Entrar</Text>
+    </Button>
+  </Form>
 
-  handleSubmitClick(event) {
-    debugger
-  }
-
-  render() {
-    return (
-          <Form>
-              <Text>{`${this.state.email} ${this.state.email}`}</Text>
-              <Item floatingLabel>
-                <Label>Email</Label>
-                <Input 
-                  style={styles.input}
-                  ref={(input) => { this.textInput = input; }}/>
-              </Item>
-              <Item floatingLabel>
-                <Label>Senha</Label>
-                <Input 
-                  style={styles.input}
-                  ref={(input) => { this.password = input; }}/>
-              </Item>
-              <Button 
-                full 
-                onPress={ event => this.handleSubmitClick(event) }
-                style={styles.button}>
-                <Text>Entrar</Text>
-              </Button>
-          </Form>
-    );
-  }
-}
-
-SignInForm.propTypes = {
-  // onSubmit: PropTypes.func.isRequired
+SignInForm.ViewPropTypes = {
+  onEmailChange: PropTypes.func.isRequired,
+  onPasswordChangeChange: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default SignInForm;

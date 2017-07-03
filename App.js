@@ -1,6 +1,8 @@
 import React from 'react';
-import Navigator from './containers/Navigator'
 import { Font, AppLoading } from 'expo';
+import firebase from 'firebase';
+import Navigator from './containers/Navigator';
+import fbConfig from './config/firebase';
 
 export default class App extends React.Component {
   constructor() {
@@ -17,7 +19,7 @@ export default class App extends React.Component {
       'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
       'Ionicons': require('native-base/Fonts/Ionicons.ttf'),
     });
-
+    firebase.initializeApp(fbConfig);
     this.setState({isReady: true});
   }
 
@@ -27,7 +29,6 @@ export default class App extends React.Component {
     }
     
     return (
-      
       <Navigator/>
     );
   }

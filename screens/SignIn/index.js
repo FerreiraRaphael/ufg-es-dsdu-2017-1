@@ -8,7 +8,8 @@ import {
 } from "native-base";
 import { StyleSheet, View } from "react-native";
 import { Constants, MapView } from "expo";
-import SignInForm from '../../components/SignInForm'
+import SignInContainer from '../../containers/SignIn';
+
 
 const styles = {
   container: {
@@ -26,7 +27,7 @@ class SignInScreen extends Component {
       <Container style={styles.container}>
         <Content padder>
           <H3>This is SignIn section</H3>
-          <SignInForm/>
+          <SignInContainer/>
         </Content>
       </Container>
     );
