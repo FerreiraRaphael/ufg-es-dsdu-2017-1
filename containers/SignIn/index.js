@@ -1,0 +1,77 @@
+import React, { Component } from "react";
+import { Container, Text, Button } from "native-base";
+import firebase from 'firebase';
+import PropTypes from 'prop-types';
+import { Facebook } from 'expo';
+import SignInForm from '../../components/SignInForm';
+import FacebookLogin from '../../components/FacebookLogin';
+import GoogleLogin from '../../components/GoogleLogin';
+import styles from './styles';
+
+class SignInContainer extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            password: ''
+        }
+    }
+    onEmailChange(event) {
+        let email = event.nativeEvent.text;
+        this.setState({ email })
+    }
+    onPasswordChange(event) {
+        let password = event.nativeEvent.text;
+        this.setState({ password })
+    }
+    onSignUpClick() {
+        let { navigator } = this.props;
+    }
+    async onSubmit() {
+        let { email, password } = this.state;
+        let result = await firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch(error => { });
+        let { navigator } = this.props;
+        navigator.navigate('Map');
+    }
+    async _onFacebookLoginPress() {
+        const { type, token } = await Facebook.logInWithReadPermissionsAsync(
+            '1385158034899184',
+            { permissions: ['public_profile'] }
+        );
+
+        if (type === 'success') {
+            // Build Firebase credential with the Facebook access token.
+            const credential = firebase.auth.FacebookAuthProvider.credential(token);
+
+            // Sign in with credential from the Facebook user.
+            await firebase.auth().signInWithCredential(credential).catch(e => { });
+            navigator.navigate('Map');
+        }
+    }
+
+    render() {
+        return (
+            <Container>
+                <SignInForm
+                    onEmailChange={e => this.onEmailChange(e)}
+                    onPasswordChange={e => this.onPasswordChange(e)}
+                    onSubmit={e => this.onSubmit(e)} />
+                <Text style={styles.text}>ou entre com</Text>
+                <FacebookLogin
+                    onPress={() => this._onFacebookLoginPress()} />
+                <Text style={styles.text}>Ainda não tem uma conta ?</Text>
+                <Button full
+                    onPress={() => this.onSignUpClick()}>
+                    <Text>Inscreva-se</Text>
+                </Button>
+            </Container >
+        );
+    }
+}
+
+SignInContainer.ViewPropTypes = {
+    navigator: PropTypes.object.isRequired
+}
+
+export default SignInContainer;
