@@ -26,10 +26,10 @@ class SignInScreen extends Component {
     return (
       <Container style={styles.container}>
         <LinearGradient
-          colors={['#9c44f9', '#726ef8', '#4fcef9']}
+          colors={['#3a7bd5', '#00d2ff']}
           style={{
             flex: 1, width: '100%', alignItems: 'center',
-            justifyContent: 'center', borderRadius: 5
+            justifyContent: 'center'
 
           }} >
           <SignInContainer navigation={this.props.navigation} />

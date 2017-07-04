@@ -125,7 +125,7 @@ class Map extends Component {
   _renderMainButton() {
     if (!this.state.user) {
       return (
-        <Button
+        <Button style={{backgroundColor: '#478FBC'}}
           full success
           onPress={() => this._handleMainButtonClick()}>
           <Text style={styles.text}>Entrar</Text>
@@ -134,7 +134,7 @@ class Map extends Component {
       );
     }
     return (
-      <Button
+      <Button style={{backgroundColor: '#478FBC'}}
         full success
         onPress={() => this._handleMainButtonClick()}>
         <Text style={styles.text}>{this.state.aim ? 'Aqui !' : 'Registrar Ocorência'}</Text>
@@ -161,7 +161,7 @@ class Map extends Component {
           style={styles.fab}
           position="bottomLeft"
           onPress={() => this._centerMap()}>
-          <Icon name="locate" />
+          <Icon name="locate" style={{ color: '#478FBC' }}/>
         </Fab>
         <View style={styles.actionButton}>
           {this._renderMainButton()}
@@ -177,7 +177,7 @@ const styles = {
     marginBottom: 100
   },
   fab: {
-    backgroundColor: '#5067FF',
+    backgroundColor: '#F9FCFF',
     bottom: Platform.OS === 'ios' ? 200 : 140,
     left: -15
   },
