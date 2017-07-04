@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 import { MapView, Location, Permissions } from "expo";
 import firebase from 'firebase';
 import GeoFire from 'geofire';
@@ -109,6 +109,7 @@ class Map extends Component {
     });
   }
 
+  
   render() {
     const { Marker } = MapView;
     return (
@@ -123,7 +124,7 @@ class Map extends Component {
         <Fab
           style={{
             backgroundColor: '#5067FF',
-            bottom: 140,
+            bottom: Platform.OS === 'ios' ? 200 : 140,
             left: -15
           }}
           position="bottomLeft"
@@ -134,8 +135,8 @@ class Map extends Component {
           <Button
             full success
             onPress={() => this._handleMainButtonClick()}>
-            <Ionicons name="ios-add" size={32} color="#fff" />
-            <Text style={styles.text}>Registrar Ocorrência</Text>
+            <Text style={styles.text}>{this.state.user ? 'Registrar Ocorrência' : 'Entrar'}</Text>
+            <Ionicons name={this.state.user ? "ios-add" : "ios-log-in"} size={32} color="#fff" />
           </Button>
         </View>
       </Container>
@@ -153,14 +154,14 @@ const styles = {
     width: '100%',
     position: 'absolute',
     left: 0,
-    bottom: 125,
+    bottom: Platform.OS === 'ios' ? 160 : 130,
     justifyContent: 'center', alignItems: 'center'
   },
   button: {
     width: 40
   },
   text: {
-    marginLeft: 5
+    marginRight: 20
   }
 };
 

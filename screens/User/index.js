@@ -28,7 +28,7 @@ class UserScreen extends Component {
 
   async _handleLogout() {
     await firebase.auth().signOut();
-    this.props.navigation.navigate('Maps');
+    this.props.navigation.goBack(null);
   }
 
   render() {

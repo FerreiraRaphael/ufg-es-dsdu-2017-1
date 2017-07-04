@@ -8,6 +8,7 @@ import FacebookLogin from '../../components/FacebookLogin';
 import GoogleLogin from '../../components/GoogleLogin';
 import styles from './styles';
 
+
 class SignInContainer extends Component {
     constructor(props) {
         super(props);
@@ -36,7 +37,7 @@ class SignInContainer extends Component {
     }
     async _onFacebookLoginPress() {
         const { type, token } = await Facebook.logInWithReadPermissionsAsync(
-            '1385158034899184',
+            '312142059240051',
             { permissions: ['public_profile'] }
         );
 
@@ -46,26 +47,18 @@ class SignInContainer extends Component {
 
             // Sign in with credential from the Facebook user.
             await firebase.auth().signInWithCredential(credential).catch(e => { });
-            navigator.navigate('Map');
+            this.props.navigation.goBack(null);
         }
     }
 
     render() {
         return (
-            <Container>
-                <SignInForm
-                    onEmailChange={e => this.onEmailChange(e)}
-                    onPasswordChange={e => this.onPasswordChange(e)}
-                    onSubmit={e => this.onSubmit(e)} />
-                <Text style={styles.text}>ou entre com</Text>
+            <Container style={{width: '100%'}}>
+                
                 <FacebookLogin
                     onPress={() => this._onFacebookLoginPress()} />
-                <Text style={styles.text}>Ainda não tem uma conta ?</Text>
-                <Button full
-                    onPress={() => this.onSignUpClick()}>
-                    <Text>Inscreva-se</Text>
-                </Button>
-            </Container >
+
+            </Container>
         );
     }
 }

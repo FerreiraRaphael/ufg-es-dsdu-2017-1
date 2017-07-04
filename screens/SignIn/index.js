@@ -7,7 +7,7 @@ import {
   Form
 } from "native-base";
 import { StyleSheet, View } from "react-native";
-import { Constants, MapView } from "expo";
+import { Constants, MapView,LinearGradient } from "expo";
 import SignInContainer from '../../containers/SignIn';
 
 
@@ -25,10 +25,18 @@ class SignInScreen extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Content padder>
-          <H3>This is SignIn section</H3>
-          <SignInContainer/>
-        </Content>
+        <LinearGradient
+          colors={['#9c44f9', '#726ef8', '#4fcef9']}
+          style={{
+            flex: 1, width: '100%', alignItems: 'center',
+            justifyContent: 'center', borderRadius: 5
+
+          }} >
+          <SignInContainer navigation={this.props.navigation} />
+        </LinearGradient>
+
+
+
       </Container>
     );
   }
