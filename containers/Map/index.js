@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, Platform } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, Platform } from "react-native";
 import { MapView, Location, Permissions } from "expo";
-import firebase from 'firebase';
-import GeoFire from 'geofire';
-import config from '../../config/config';
+import firebase from "firebase";
+import GeoFire from "geofire";
+import config from "../../config/config";
+import { getAddress } from '../../services/maps';
 const { Marker } = MapView;
 
 class Map extends Component {
@@ -27,26 +28,29 @@ class Map extends Component {
 
   componentDidMount() {
     this._getLocation();
-    firebase.database().ref('crimes').on('value', snap => this._handleCrimesChange(snap));
-    firebase.auth().onAuthStateChanged((user) => this._handleUserAuth(user));
+    firebase
+      .database()
+      .ref("crimes")
+      .on("value", snap => this._handleCrimesChange(snap));
+    firebase.auth().onAuthStateChanged(user => this._handleUserAuth(user));
   }
 
   async _getLocation() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-        locationResult: false,
+        locationResult: false
       });
     }
 
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ locationResult: location });
     this._centerMap();
-  };
+  }
 
   _handleUserAuth(user) {
     if (user) {
-      let { email, uid } = user
+      let { email, uid } = user;
       user = { email, uid };
     }
     this.setState({ user });
@@ -54,34 +58,43 @@ class Map extends Component {
 
   _handleMainButtonClick() {
     if (!this.state.user) {
-      this.props.navigation.navigate('SignIn');
+      this.props.navigation.navigate("SignIn");
       return;
     }
-    this._createNewCrime()
+    if(this.state.aim) {
+      let { longitude, latitude } = this.state.mapRegion;
+      this.props.navigation.navigate('Crime', { userId: this.state.user.uid, latitude, longitude });
+    }
+    let aim = !this.state.aim;
+    this.setState({ aim });
   }
 
   async _createNewCrime() {
-    let key = firebase.database().ref('crimes').push().key;
+    let key = firebase.database().ref("crimes").push().key;
     let { latitude, longitude } = this.state.mapRegion;
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${config.geolocationKey}`
 
-
-    let googleResult = await fetch(url).then(res => res.json());
+    let googleResult = await getAddress({longitude, latitude});
     let crime = {
-      title: 'x',
-      description: 'x',
+      title: "x",
+      description: "x",
       userId: this.state.user.uid,
-      latitude, longitude
-    }
+      latitude,
+      longitude
+    };
     if (googleResult.results[0]) {
-      Object.assign(crime, { address: googleResult.results[0].formatted_address })
+      Object.assign(crime, {
+        address: googleResult.results[0].formatted_address
+      });
     }
-    firebase.database().ref('crimes/' + key).set(crime);
+    firebase.database().ref("crimes/" + key).set(crime);
   }
 
   _centerMap() {
     let { longitude, latitude } = this.state.locationResult.coords;
-    let mapRegion = Object.assign({}, this.state.mapRegion, { longitude, latitude });
+    let mapRegion = Object.assign({}, this.state.mapRegion, {
+      longitude,
+      latitude
+    });
     this.setState({ mapRegion });
   }
 
@@ -106,8 +119,9 @@ class Map extends Component {
           key={key}
           title={crime.title}
           description={crime.description}
-          coordinate={coordinate} />
-      )
+          coordinate={coordinate}
+        />
+      );
     });
   }
 
@@ -116,36 +130,35 @@ class Map extends Component {
     let coordinate = { latitude, longitude };
     return (
       <Marker
-        title={crime.title}
-        description={crime.description}
-        coordinate={coordinate} />
-    )
+        coordinate={coordinate}
+      />
+    );
   }
 
   _renderMainButton() {
     if (!this.state.user) {
       return (
-        <Button
-          full success
-          onPress={() => this._handleMainButtonClick()}>
+        <Button full success onPress={() => this._handleMainButtonClick()}>
           <Text style={styles.text}>Entrar</Text>
           <Ionicons name="ios-log-in" size={32} color="#fff" />
         </Button>
       );
     }
     return (
-      <Button
-        full success
-        onPress={() => this._handleMainButtonClick()}>
-        <Text style={styles.text}>{this.state.aim ? 'Aqui !' : 'Registrar Ocorência'}</Text>
-        <Ionicons name={this.state.aim ? "ios-locate-outline" : "ios-add"} size={32} color="#fff" />
+      <Button full success onPress={() => this._handleMainButtonClick()}>
+        <Text style={styles.text}>
+          {this.state.aim ? "Aqui !" : "Registrar Ocorência"}
+        </Text>
+        <Ionicons
+          name={this.state.aim ? "ios-locate-outline" : "ios-add"}
+          size={32}
+          color="#fff"
+        />
       </Button>
     );
   }
 
-  _renderFAB() {
-
-  }
+  _renderFAB() {}
 
   render() {
     return (
@@ -154,13 +167,15 @@ class Map extends Component {
           style={styles.map}
           region={this.state.mapRegion}
           provider="google"
-          onRegionChange={this._handleMapRegionChange}>
+          onRegionChange={this._handleMapRegionChange}
+        >
           {this.state.aim ? this._renderAim() : this._renderMarkers()}
         </MapView>
         <Fab
           style={styles.fab}
           position="bottomLeft"
-          onPress={() => this._centerMap()}>
+          onPress={() => this._centerMap()}
+        >
           <Icon name="locate" />
         </Fab>
         <View style={styles.actionButton}>
@@ -177,22 +192,23 @@ const styles = {
     marginBottom: 100
   },
   fab: {
-    backgroundColor: '#5067FF',
-    bottom: Platform.OS === 'ios' ? 200 : 140,
+    backgroundColor: "#5067FF",
+    bottom: Platform.OS === "ios" ? 200 : 140,
     left: -15
   },
   actionButton: {
-    width: '100%',
-    position: 'absolute',
+    width: "100%",
+    position: "absolute",
     left: 0,
-    bottom: Platform.OS === 'ios' ? 160 : 130,
-    justifyContent: 'center', alignItems: 'center'
+    bottom: Platform.OS === "ios" ? 160 : 130,
+    justifyContent: "center",
+    alignItems: "center"
   },
   button: {
     width: 40
   },
   text: {
-    marginRight: 20
+    marginRight: 10
   }
 };
 

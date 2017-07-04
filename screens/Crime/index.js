@@ -1,19 +1,8 @@
 import React, { Component } from "react";
-import {
-  Container,
-  Content,
-  Text,
-  H3,
-  Form,
-  Header,
-  Title,
-  Button,
-  Icon,
-  Left
-} from "native-base";
+import { Container, Content, Text, H3, Form, Header, Left, Button, Icon, Item, Label, Input } from "native-base";
 import { StyleSheet, View } from "react-native";
 import { Constants, MapView, LinearGradient } from "expo";
-import SignInContainer from "../../containers/SignIn";
+import CrimeForm from '../../containers/CrimeForm';
 
 const styles = {
   container: {
@@ -21,9 +10,13 @@ const styles = {
   }
 };
 
-class SignInScreen extends Component {
+class CrimeScreen extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+        title: '',
+        description: '',
+    }
   }
 
   render() {
@@ -36,24 +29,14 @@ class SignInScreen extends Component {
               onPress={() => this.props.navigation.goBack(null)}
             >
               <Icon name="ios-arrow-back" />
-              <Text style={{ marginLeft: 10 }}>Faça o Login</Text>
+              <Text style={{ marginLeft: 10 }}>Registrar Ocorência</Text>
             </Button>
           </Left>
         </Header>
-        <LinearGradient
-          colors={["#9c44f9", "#726ef8", "#4fcef9"]}
-          style={{
-            flex: 1,
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <SignInContainer navigation={this.props.navigation} />
-        </LinearGradient>
+        <CrimeForm navigation={this.props.navigation}/>
       </Container>
     );
   }
 }
 
-export default SignInScreen;
+export default CrimeScreen;

@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import MapScreen from '../../screens/Map';
 import UserScreen from '../../screens/User';
 import SignInScreen from '../../screens/SignIn';
+import CrimeScreen from '../../screens/Crime';
 
 const Navigator = TabNavigator(
   {
@@ -55,6 +56,9 @@ const Stack = StackNavigator({
       title: 'Entrar'
     }
   },
+  Crime: {
+    screen: CrimeScreen
+  }
   // SignUp: {
   //   screen: SignUpScreen,
   //   navigationOptions: {
