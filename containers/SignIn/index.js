@@ -53,7 +53,7 @@ class SignInContainer extends Component {
 
     render() {
         return (
-            <Container style={{width: '100%'}}>
+            <Container style={{ width: '90%' }}>
                 
                 <FacebookLogin
                     onPress={() => this._onFacebookLoginPress()} />

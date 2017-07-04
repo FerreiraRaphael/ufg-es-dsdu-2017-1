@@ -40,7 +40,7 @@ const Navigator = TabNavigator(
   {
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#e91e63',
+      activeTintColor: Platform.OS === 'ios' ? '#478FBC' : '#478FBC',
       inactiveTintColor: '#000000',
       style : {
         backgroundColor : '#fff'
@@ -56,7 +56,9 @@ const Stack = StackNavigator({
   SignIn: {
     screen: SignInScreen,
     navigationOptions: {
-      title: 'Entrar'
+      title: 'Entrar',
+      backgroundColor: '#fff'
+
     }
   },
   // SignUp: {
