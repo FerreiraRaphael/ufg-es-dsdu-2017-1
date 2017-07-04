@@ -9,13 +9,12 @@ import {
   List,
   ListItem,
   Right,
-  Item,
-  Icon,Input
+  Item
 } from "native-base";
 import firebase from 'firebase';
 import { Ionicons } from '@expo/vector-icons';
 import { Constants } from "expo";
-
+import UserList from '../../containers/UserList';
 const styles = {
   container: {
     paddingTop: 0,
@@ -102,7 +101,8 @@ class UserScreen extends Component {
             <H3 style={{ color: '#000' }}>Usuário</H3>
           </Item>
         </Header>
-        <Content padder>
+        <UserList navigation={this.props.navigation}/>
+        {/*<Content padder>
           <List>
             <ListItem itemHeader first>
               <Text>Suas Ocorrências</Text>
@@ -114,11 +114,11 @@ class UserScreen extends Component {
               </Right>
             </ListItem>
           </List>
-          <Button full danger style={{ marginBottom: 10 }}
-            onPress={() => this._handleLogout()}>
-            <Text>SAIR</Text>
-          </Button>
-        </Content>
+        </Content>*/}
+        <Button full danger style={{ marginBottom: 10 }}
+          onPress={() => this._handleLogout()}>
+          <Text>SAIR</Text>
+        </Button>
       </Container>
     );
     }
