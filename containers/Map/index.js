@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from "react-native"; 
 import { MapView, Location, Permissions } from "expo";
 import firebase from 'firebase';
 import GeoFire from 'geofire';
@@ -171,6 +171,8 @@ class Map extends Component {
   }
 }
 
+const { height, width } = Dimensions.get('window'); 
+
 const styles = {
   map: {
     flex: 1,
@@ -178,14 +180,14 @@ const styles = {
   },
   fab: {
     backgroundColor: '#F9FCFF',
-    bottom: Platform.OS === 'ios' ? 200 : 140,
+    bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100, 
     left: -15
   },
   actionButton: {
     width: '100%',
     position: 'absolute',
     left: 0,
-    bottom: Platform.OS === 'ios' ? 160 : 130,
+    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80, 
     justifyContent: 'center', alignItems: 'center'
   },
   button: {
