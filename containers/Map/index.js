@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 import { MapView, Location, Permissions } from "expo";
 import firebase from "firebase";
 import GeoFire from "geofire";
@@ -61,7 +61,7 @@ class Map extends Component {
       this.props.navigation.navigate("SignIn");
       return;
     }
-    if(this.state.aim) {
+    if (this.state.aim) {
       let { longitude, latitude } = this.state.mapRegion;
       this.props.navigation.navigate('Crime', { userId: this.state.user.uid, latitude, longitude });
     }
@@ -73,7 +73,7 @@ class Map extends Component {
     let key = firebase.database().ref("crimes").push().key;
     let { latitude, longitude } = this.state.mapRegion;
 
-    let googleResult = await getAddress({longitude, latitude});
+    let googleResult = await getAddress({ longitude, latitude });
     let crime = {
       title: "x",
       description: "x",
@@ -158,7 +158,7 @@ class Map extends Component {
     );
   }
 
-  _renderFAB() {}
+  _renderFAB() { }
 
   render() {
     return (
@@ -186,6 +186,8 @@ class Map extends Component {
   }
 }
 
+const { height, width } = Dimensions.get('window');
+
 const styles = {
   map: {
     flex: 1,
@@ -193,14 +195,14 @@ const styles = {
   },
   fab: {
     backgroundColor: "#5067FF",
-    bottom: Platform.OS === "ios" ? 200 : 140,
+    bottom: Platform.OS === "ios" ? 50 + 130 : 50 + 100,
     left: -15
   },
   actionButton: {
     width: "100%",
     position: "absolute",
     left: 0,
-    bottom: Platform.OS === "ios" ? 160 : 130,
+    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80,
     justifyContent: "center",
     alignItems: "center"
   },
