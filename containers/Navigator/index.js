@@ -40,7 +40,11 @@ const Navigator = TabNavigator(
   {
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#fff',
+      activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#e91e63',
+      inactiveTintColor: '#000000',
+      style : {
+        backgroundColor : '#fff'
+      }
     },
   }
 );
