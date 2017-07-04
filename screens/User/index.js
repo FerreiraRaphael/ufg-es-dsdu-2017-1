@@ -37,7 +37,7 @@ class UserScreen extends Component {
         <Header style={{
           paddingTop: 15,
         }}>
-            <H3 style={{ color: '#fff' }}>Usuário</H3>
+          <H3 style={{ color: '#fff' }}>Usuário</H3>
         </Header>
         <Content padder>
           <List>
@@ -93,7 +93,7 @@ class UserScreen extends Component {
               </Right>
             </ListItem>
           </List>
-          <Button full danger style={{marginBottom: 10}}
+          <Button full danger style={{ marginBottom: 10 }}
             onPress={() => this._handleLogout()}>
             <Text>SAIR</Text>
           </Button>

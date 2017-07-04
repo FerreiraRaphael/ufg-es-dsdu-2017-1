@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, Platform } from 'react-native';
 import { MapView, Location, Permissions } from "expo";
 import firebase from 'firebase';
 import GeoFire from 'geofire';
 import config from '../../config/config';
+const { Marker } = MapView;
 
 class Map extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class Map extends Component {
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421
       },
-      crimes: []
+      crimes: [],
+      aim: false
     };
   }
 
@@ -100,7 +102,7 @@ class Map extends Component {
       let { latitude, longitude } = crime;
       let coordinate = { latitude, longitude };
       return (
-        <MapView.Marker
+        <Marker
           key={key}
           title={crime.title}
           description={crime.description}
@@ -109,9 +111,43 @@ class Map extends Component {
     });
   }
 
-  
+  _renderAim() {
+    let { latitude, longitude } = this.state.mapRegion;
+    let coordinate = { latitude, longitude };
+    return (
+      <Marker
+        title={crime.title}
+        description={crime.description}
+        coordinate={coordinate} />
+    )
+  }
+
+  _renderMainButton() {
+    if (!this.state.user) {
+      return (
+        <Button
+          full success
+          onPress={() => this._handleMainButtonClick()}>
+          <Text style={styles.text}>Entrar</Text>
+          <Ionicons name="ios-log-in" size={32} color="#fff" />
+        </Button>
+      );
+    }
+    return (
+      <Button
+        full success
+        onPress={() => this._handleMainButtonClick()}>
+        <Text style={styles.text}>{this.state.aim ? 'Aqui !' : 'Registrar Ocorência'}</Text>
+        <Ionicons name={this.state.aim ? "ios-locate-outline" : "ios-add"} size={32} color="#fff" />
+      </Button>
+    );
+  }
+
+  _renderFAB() {
+
+  }
+
   render() {
-    const { Marker } = MapView;
     return (
       <Container>
         <MapView
@@ -119,28 +155,18 @@ class Map extends Component {
           region={this.state.mapRegion}
           provider="google"
           onRegionChange={this._handleMapRegionChange}>
-          {this._renderMarkers()}
+          {this.state.aim ? this._renderAim() : this._renderMarkers()}
         </MapView>
         <Fab
-          style={{
-            backgroundColor: '#5067FF',
-            bottom: Platform.OS === 'ios' ? 200 : 140,
-            left: -15
-          }}
+          style={styles.fab}
           position="bottomLeft"
           onPress={() => this._centerMap()}>
           <Icon name="locate" />
         </Fab>
         <View style={styles.actionButton}>
-          <Button
-            full success
-            onPress={() => this._handleMainButtonClick()}>
-            <Text style={styles.text}>{this.state.user ? 'Registrar Ocorrência' : 'Entrar'}</Text>
-            <Ionicons name={this.state.user ? "ios-add" : "ios-log-in"} size={32} color="#fff" />
-          </Button>
+          {this._renderMainButton()}
         </View>
       </Container>
-
     );
   }
 }
@@ -149,6 +175,11 @@ const styles = {
   map: {
     flex: 1,
     marginBottom: 100
+  },
+  fab: {
+    backgroundColor: '#5067FF',
+    bottom: Platform.OS === 'ios' ? 200 : 140,
+    left: -15
   },
   actionButton: {
     width: '100%',
