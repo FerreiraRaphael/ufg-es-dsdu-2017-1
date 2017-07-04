@@ -102,19 +102,6 @@ class UserScreen extends Component {
           </Item>
         </Header>
         <UserList navigation={this.props.navigation}/>
-        {/*<Content padder>
-          <List>
-            <ListItem itemHeader first>
-              <Text>Suas Ocorrências</Text>
-            </ListItem>
-            <ListItem >
-              <Text>Hangover</Text>
-              <Right>
-                <Ionicons name="ios-trash-outline" size={32} />
-              </Right>
-            </ListItem>
-          </List>
-        </Content>*/}
         <Button full danger style={{ marginBottom: 10 }}
           onPress={() => this._handleLogout()}>
           <Text>SAIR</Text>
