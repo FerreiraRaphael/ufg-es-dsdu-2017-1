@@ -14,7 +14,6 @@ class Map extends Component {
     super(props);
     this.state = {
       user: false,
-      locationResult: false,
       mapRegion: {
         latitude: -16.6815803,
         longitude: -49.258389,
@@ -38,13 +37,14 @@ class Map extends Component {
   async _getLocation() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
-      this.setState({
-        locationResult: false
-      });
+      this.props.onLocationChange(false);
+      // this.setState({
+      //   locationResult: false
+      // });
     }
 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: location });
+    let locationResult = await Location.getCurrentPositionAsync({});
+    this.props.onLocationChange(locationResult);
     this._centerMap();
   }
 
@@ -62,7 +62,7 @@ class Map extends Component {
       return;
     }
     if (this.state.aim) {
-      let { longitude, latitude } = this.state.mapRegion;
+      let { longitude, latitude } = this.props.mapRegion;
       this.props.navigation.navigate("Crime", {
         userId: this.state.user.uid,
         latitude,
@@ -75,7 +75,7 @@ class Map extends Component {
 
   async _createNewCrime() {
     let key = firebase.database().ref("crimes").push().key;
-    let { latitude, longitude } = this.state.mapRegion;
+    let { latitude, longitude } = this.props.mapRegion;
 
     let googleResult = await getAddress({ longitude, latitude });
     let crime = {
@@ -94,8 +94,9 @@ class Map extends Component {
   }
 
   _centerMap() {
-    let { longitude, latitude } = this.state.locationResult.coords;
-    let mapRegion = Object.assign({}, this.state.mapRegion, {
+    //TODO: ISSUE #4 
+    let { longitude, latitude } = this.props.locationResult.coords;
+    let mapRegion = Object.assign({}, this.props.mapRegion, {
       longitude,
       latitude
     });
@@ -175,9 +176,9 @@ class Map extends Component {
       <Container>
         <MapView
           style={styles.map}
-          region={this.state.mapRegion}
+          region={this.props.mapRegion}
           provider="google"
-          onRegionChange={this._handleMapRegionChange}
+          onRegionChange={(mapRegion) => this.props.onMapRegionChange(mapRegion)}
         >
           {this.state.aim ? this._renderAim() : this._renderMarkers()}
         </MapView>

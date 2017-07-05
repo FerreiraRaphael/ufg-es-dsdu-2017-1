@@ -20,12 +20,20 @@ class MapScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationResult: false
+      locationResult: false,
+      mapRegion: {
+        latitude: -16.6815803,
+        longitude: -49.258389,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
     };
   }
 
   componentDidMount() {
-    debugger;
+    let params = this.props.navigation.state.params;
+    if (!params) return;
+    let { latitude, longitude } = params;
   }
 
   _goToSearch() {
@@ -58,6 +66,8 @@ class MapScreen extends Component {
               this.setState({ locationResult });
             }}
             locationResult={this.state.locationResult}
+            mapRegion={this.state.mapRegion}
+            onMapRegionChange={mapRegion => this.setState({ mapRegion })}
           />
         </Content>
       </Container>
