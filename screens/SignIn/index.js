@@ -22,11 +22,13 @@ const styles = {
     textAlign:'center',
     color:'#E9F1FF',
     paddingBottom:20,
+    backgroundColor: 'transparent'
   },
   Descricao:{
     color:'#BCCFEF',
     textAlign:'center',
     paddingBottom:60,
+    backgroundColor: 'transparent'
   }
 };
 
@@ -54,7 +56,8 @@ class SignInScreen extends Component {
               <Text style={styles.Descricao}>Veja tudo que está acontecendo 
                 por dentro da cidade em que mora, ou um local que deseja visitar.</Text>
               <SignInContainer navigation={this.props.navigation} />
-              <Text style={{ marginTop: 20, textAlign:'center', color:'#E9F1FF',fontWeight:'bold'}}>
+              <Text style={{ margin: 60, textAlign:'center', color:'#E9F1FF',fontWeight:'bold'
+              ,backgroundColor: 'transparent' }}>
                 A segurança em suas mãos!!</Text>
             </View>
           </View>
