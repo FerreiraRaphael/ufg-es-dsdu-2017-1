@@ -143,36 +143,20 @@ class Map extends Component {
   _renderMainButton() {
     if (!this.state.user) {
       return (
-<<<<<<< HEAD
-        <Button full success onPress={() => this._handleMainButtonClick()}>
-=======
         <Button style={{backgroundColor: '#478FBC'}}
           full success
           onPress={() => this._handleMainButtonClick()}>
->>>>>>> develop
           <Text style={styles.text}>Entrar</Text>
           <Ionicons name="ios-log-in" size={32} color="#fff" />
         </Button>
       );
     }
     return (
-<<<<<<< HEAD
-      <Button full success onPress={() => this._handleMainButtonClick()}>
-        <Text style={styles.text}>
-          {this.state.aim ? "Aqui !" : "Registrar Ocorência"}
-        </Text>
-        <Ionicons
-          name={this.state.aim ? "ios-locate-outline" : "ios-add"}
-          size={32}
-          color="#fff"
-        />
-=======
       <Button style={{backgroundColor: '#478FBC'}}
         full success
         onPress={() => this._handleMainButtonClick()}>
         <Text style={styles.text}>{this.state.aim ? 'Aqui !' : 'Registrar Ocorência'}</Text>
         <Ionicons name={this.state.aim ? "ios-locate-outline" : "ios-add"} size={32} color="#fff" />
->>>>>>> develop
       </Button>
     );
   }
@@ -193,14 +177,8 @@ class Map extends Component {
         <Fab
           style={styles.fab}
           position="bottomLeft"
-<<<<<<< HEAD
-          onPress={() => this._centerMap()}
-        >
-          <Icon name="locate" />
-=======
           onPress={() => this._centerMap()}>
           <Icon name="locate" style={{ color: '#478FBC' }}/>
->>>>>>> develop
         </Fab>
         <View style={styles.actionButton}>
           {this._renderMainButton()}
@@ -210,11 +188,7 @@ class Map extends Component {
   }
 }
 
-<<<<<<< HEAD
-const { height, width } = Dimensions.get('window');
-=======
 const { height, width } = Dimensions.get('window'); 
->>>>>>> develop
 
 const styles = {
   map: {
@@ -222,27 +196,16 @@ const styles = {
     marginBottom: 100
   },
   fab: {
-<<<<<<< HEAD
-    backgroundColor: "#5067FF",
-    bottom: Platform.OS === "ios" ? 50 + 130 : 50 + 100,
-=======
     backgroundColor: '#F9FCFF',
     bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100, 
->>>>>>> develop
     left: -15
   },
   actionButton: {
     width: "100%",
     position: "absolute",
     left: 0,
-<<<<<<< HEAD
-    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80,
-    justifyContent: "center",
-    alignItems: "center"
-=======
     bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80, 
     justifyContent: 'center', alignItems: 'center'
->>>>>>> develop
   },
   button: {
     width: 40

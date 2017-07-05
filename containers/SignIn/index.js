@@ -53,19 +53,12 @@ class SignInContainer extends Component {
 
     render() {
         return (
-<<<<<<< HEAD
-            <Container style={{width: '100%'}}>
-                <FacebookLogin
-                    onPress={() => this._onFacebookLoginPress()} />
-            </Container>
-=======
             <View>
                 
                 <FacebookLogin
                     onPress={() => this._onFacebookLoginPress()} />
 
             </View>
->>>>>>> develop
         );
     }
 }

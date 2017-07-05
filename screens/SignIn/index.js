@@ -11,16 +11,10 @@ import {
   Icon,
   Left
 } from "native-base";
-<<<<<<< HEAD
-import { StyleSheet, View } from "react-native";
-import { Constants, MapView, LinearGradient } from "expo";
-import SignInContainer from "../../containers/SignIn";
-=======
 import { StyleSheet, View, TextInput } from "react-native";
 import { Constants, MapView,LinearGradient } from "expo";
 import SignInContainer from '../../containers/SignIn';
 
->>>>>>> develop
 
 const styles = {
   container: {
@@ -59,17 +53,6 @@ class SignInScreen extends Component {
           </Left>
         </Header>
         <LinearGradient
-<<<<<<< HEAD
-          colors={["#9c44f9", "#726ef8", "#4fcef9"]}
-          style={{
-            flex: 1,
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          <SignInContainer navigation={this.props.navigation} />
-=======
           colors={['#3a7bd5', '#00d2ff']}
           style={{
             flex: 1, width: '100%', alignItems: 'center',
@@ -86,7 +69,6 @@ class SignInScreen extends Component {
             </View>
           </View>
           
->>>>>>> develop
         </LinearGradient>
       </Container>
     );
