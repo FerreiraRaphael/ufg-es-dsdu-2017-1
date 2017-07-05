@@ -6,7 +6,10 @@ import {
   H3,
   Form,
   Icon,
-  Button
+  Button,
+  Header, 
+  Title,  
+  Left 
 } from "native-base";
 import { StyleSheet, View, TextInput } from "react-native";
 import { Constants, MapView,LinearGradient } from "expo";
@@ -44,6 +47,17 @@ class SignInScreen extends Component {
   render() {
     return (
       <Container style={styles.container}>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.goBack(null)}
+            >
+              <Icon name="ios-arrow-back" />
+              <Text style={{ marginLeft: 10 }}>Faça o Login</Text>
+            </Button>
+          </Left>
+        </Header>
         <LinearGradient
           colors={['#3a7bd5', '#00d2ff']}
           style={{

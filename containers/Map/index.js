@@ -3,9 +3,10 @@ import { Container, Icon, Fab, View, Button, Text } from "native-base";
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, Platform, Dimensions } from "react-native"; 
 import { MapView, Location, Permissions } from "expo";
-import firebase from 'firebase';
-import GeoFire from 'geofire';
-import config from '../../config/config';
+import firebase from "firebase";
+import GeoFire from "geofire";
+import config from "../../config/config";
+import { getAddress } from '../../services/maps';
 const { Marker } = MapView;
 
 class Map extends Component {
@@ -27,26 +28,29 @@ class Map extends Component {
 
   componentDidMount() {
     this._getLocation();
-    firebase.database().ref('crimes').on('value', snap => this._handleCrimesChange(snap));
-    firebase.auth().onAuthStateChanged((user) => this._handleUserAuth(user));
+    firebase
+      .database()
+      .ref("crimes")
+      .on("value", snap => this._handleCrimesChange(snap));
+    firebase.auth().onAuthStateChanged(user => this._handleUserAuth(user));
   }
 
   async _getLocation() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
+    if (status !== "granted") {
       this.setState({
-        locationResult: false,
+        locationResult: false
       });
     }
 
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ locationResult: location });
     this._centerMap();
-  };
+  }
 
   _handleUserAuth(user) {
     if (user) {
-      let { email, uid } = user
+      let { email, uid } = user;
       user = { email, uid };
     }
     this.setState({ user });
@@ -54,34 +58,43 @@ class Map extends Component {
 
   _handleMainButtonClick() {
     if (!this.state.user) {
-      this.props.navigation.navigate('SignIn');
+      this.props.navigation.navigate("SignIn");
       return;
     }
-    this._createNewCrime()
+    if (this.state.aim) {
+      let { longitude, latitude } = this.state.mapRegion;
+      this.props.navigation.navigate('Crime', { userId: this.state.user.uid, latitude, longitude });
+    }
+    let aim = !this.state.aim;
+    this.setState({ aim });
   }
 
   async _createNewCrime() {
-    let key = firebase.database().ref('crimes').push().key;
+    let key = firebase.database().ref("crimes").push().key;
     let { latitude, longitude } = this.state.mapRegion;
-    let url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${config.geolocationKey}`
 
-
-    let googleResult = await fetch(url).then(res => res.json());
+    let googleResult = await getAddress({ longitude, latitude });
     let crime = {
-      title: 'x',
-      description: 'x',
+      title: "x",
+      description: "x",
       userId: this.state.user.uid,
-      latitude, longitude
-    }
+      latitude,
+      longitude
+    };
     if (googleResult.results[0]) {
-      Object.assign(crime, { address: googleResult.results[0].formatted_address })
+      Object.assign(crime, {
+        address: googleResult.results[0].formatted_address
+      });
     }
-    firebase.database().ref('crimes/' + key).set(crime);
+    firebase.database().ref("crimes/" + key).set(crime);
   }
 
   _centerMap() {
     let { longitude, latitude } = this.state.locationResult.coords;
-    let mapRegion = Object.assign({}, this.state.mapRegion, { longitude, latitude });
+    let mapRegion = Object.assign({}, this.state.mapRegion, {
+      longitude,
+      latitude
+    });
     this.setState({ mapRegion });
   }
 
@@ -106,8 +119,9 @@ class Map extends Component {
           key={key}
           title={crime.title}
           description={crime.description}
-          coordinate={coordinate} />
-      )
+          coordinate={coordinate}
+        />
+      );
     });
   }
 
@@ -116,10 +130,9 @@ class Map extends Component {
     let coordinate = { latitude, longitude };
     return (
       <Marker
-        title={crime.title}
-        description={crime.description}
-        coordinate={coordinate} />
-    )
+        coordinate={coordinate}
+      />
+    );
   }
 
   _renderMainButton() {
@@ -143,9 +156,7 @@ class Map extends Component {
     );
   }
 
-  _renderFAB() {
-
-  }
+  _renderFAB() { }
 
   render() {
     return (
@@ -154,7 +165,8 @@ class Map extends Component {
           style={styles.map}
           region={this.state.mapRegion}
           provider="google"
-          onRegionChange={this._handleMapRegionChange}>
+          onRegionChange={this._handleMapRegionChange}
+        >
           {this.state.aim ? this._renderAim() : this._renderMarkers()}
         </MapView>
         <Fab
@@ -184,8 +196,8 @@ const styles = {
     left: -15
   },
   actionButton: {
-    width: '100%',
-    position: 'absolute',
+    width: "100%",
+    position: "absolute",
     left: 0,
     bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80, 
     justifyContent: 'center', alignItems: 'center'
@@ -194,7 +206,7 @@ const styles = {
     width: 40
   },
   text: {
-    marginRight: 20
+    marginRight: 10
   }
 };
 
