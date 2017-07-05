@@ -63,7 +63,6 @@ class UserScreen extends Component {
         .orderByChild("userId")
         .equalTo(uid)
         .on("value", snap => {
-          debugger;
         });
     }
     this.setState({ user });
