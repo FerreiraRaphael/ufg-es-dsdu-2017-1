@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
-<<<<<<< HEAD
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { StyleSheet, Platform, Dimensions } from "react-native";
-=======
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { StyleSheet, Platform, Dimensions } from "react-native"; 
->>>>>>> develop
 import { MapView, Location, Permissions } from "expo";
 import firebase from "firebase";
 import GeoFire from "geofire";
