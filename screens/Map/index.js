@@ -31,7 +31,7 @@ class MapScreen extends Component {
             <Icon name="ios-people" />
           </Item>
           <Button transparent>
-            <Text>Search</Text>
+            <Text>Buscar</Text>
           </Button>
         </Header>
         <Content padder>
