@@ -45,7 +45,8 @@ class UserScreen extends Component {
         longitudeDelta: 0.0421
       },
       crimes: [],
-      aim: false
+      aim: false,
+      userList : []
     };
   }
 
@@ -63,6 +64,8 @@ class UserScreen extends Component {
         .orderByChild("userId")
         .equalTo(uid)
         .on("value", snap => {
+          let userList = snap.val();
+          this.setState({ userList });
         });
     }
     this.setState({ user });
@@ -112,7 +115,7 @@ class UserScreen extends Component {
               <H3 style={{ color: "#000" }}>Usuário</H3>
             </Item>
           </Header>
-          <UserList navigation={this.props.navigation} />
+          <UserList navigation={this.props.navigation}/>
           <Button
             full
             danger
