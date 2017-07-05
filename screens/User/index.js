@@ -11,10 +11,10 @@ import {
   Right,
   Item
 } from "native-base";
-import firebase from 'firebase';
-import { Ionicons } from '@expo/vector-icons';
+import firebase from "firebase";
+import { Ionicons } from "@expo/vector-icons";
 import { Constants } from "expo";
-import UserList from '../../containers/UserList';
+import UserList from "../../containers/UserList";
 const styles = {
   container: {
     paddingTop: 0,
@@ -23,9 +23,9 @@ const styles = {
   paragraph: {
     margin: 24,
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#34495e',
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#34495e"
   },
   text: {
     marginRight: 20
@@ -50,13 +50,21 @@ class UserScreen extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged((user) => this._handleUserAuth(user));
+    firebase.auth().onAuthStateChanged(user => this._handleUserAuth(user));
   }
 
   _handleUserAuth(user) {
     if (user) {
-      let { uid } = user
+      let { uid } = user;
       user = { uid };
+      firebase
+        .database()
+        .ref("crimes")
+        .orderByChild("userId")
+        .equalTo(uid)
+        .on("value", snap => {
+          debugger;
+        });
     }
     this.setState({ user });
   }
@@ -67,47 +75,55 @@ class UserScreen extends Component {
   }
 
   _handleMainButtonClick() {
-    this.props.navigation.navigate('SignIn');
+    this.props.navigation.navigate("SignIn");
     return;
   }
 
   render() {
     if (!this.state.user) {
       return (
-      <Container style={styles.container}>
-        <Header>
-          <Item>
-            <H3 style={{ color: '#000' }}>Usuário</H3>
-          </Item>
-        </Header>
-        <Content padder>
-          <Text style={styles.paragraph}>
-            Atenção! Para ver os crimes cadastrados por você
-            é necessário estar logado.
-          </Text>
-          <Button full success style={{ marginBottom: 10 }}
-            onPress={() => this._handleMainButtonClick()}>
-            <Text style={styles.text}>LOGAR-SE</Text>
-            <Ionicons name="ios-log-in" size={32} color="#fff" />
-          </Button>
-        </Content>
-      </Container>
+        <Container style={styles.container}>
+          <Header>
+            <Item>
+              <H3 style={{ color: "#000" }}>Usuário</H3>
+            </Item>
+          </Header>
+          <Content padder>
+            <Text style={styles.paragraph}>
+              Atenção! Para ver os crimes cadastrados por você
+              é necessário estar logado.
+            </Text>
+            <Button
+              full
+              success
+              style={{ marginBottom: 10 }}
+              onPress={() => this._handleMainButtonClick()}
+            >
+              <Text style={styles.text}>LOGAR-SE</Text>
+              <Ionicons name="ios-log-in" size={32} color="#fff" />
+            </Button>
+          </Content>
+        </Container>
       );
     } else {
-    return (
-      <Container style={styles.container}>
-        <Header>
-          <Item>
-            <H3 style={{ color: '#000' }}>Usuário</H3>
-          </Item>
-        </Header>
-        <UserList navigation={this.props.navigation}/>
-        <Button full danger style={{ marginBottom: 10 }}
-          onPress={() => this._handleLogout()}>
-          <Text>SAIR</Text>
-        </Button>
-      </Container>
-    );
+      return (
+        <Container style={styles.container}>
+          <Header>
+            <Item>
+              <H3 style={{ color: "#000" }}>Usuário</H3>
+            </Item>
+          </Header>
+          <UserList navigation={this.props.navigation} />
+          <Button
+            full
+            danger
+            style={{ marginBottom: 10 }}
+            onPress={() => this._handleLogout()}
+          >
+            <Text>SAIR</Text>
+          </Button>
+        </Container>
+      );
     }
   }
 }
