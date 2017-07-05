@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Text, Button } from "native-base";
+import { Container, Text, Button, View } from "native-base";
 import firebase from 'firebase';
 import PropTypes from 'prop-types';
 import { Facebook } from 'expo';
@@ -53,12 +53,12 @@ class SignInContainer extends Component {
 
     render() {
         return (
-            <Container style={{ width: '90%' }}>
+            <View>
                 
                 <FacebookLogin
                     onPress={() => this._onFacebookLoginPress()} />
 
-            </Container>
+            </View>
         );
     }
 }
