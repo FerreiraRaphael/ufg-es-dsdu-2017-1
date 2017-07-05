@@ -11,13 +11,31 @@ import {
   Icon,
   Left
 } from "native-base";
+<<<<<<< HEAD
 import { StyleSheet, View } from "react-native";
 import { Constants, MapView, LinearGradient } from "expo";
 import SignInContainer from "../../containers/SignIn";
+=======
+import { StyleSheet, View, TextInput } from "react-native";
+import { Constants, MapView,LinearGradient } from "expo";
+import SignInContainer from '../../containers/SignIn';
+
+>>>>>>> develop
 
 const styles = {
   container: {
     paddingTop: Constants.statusBarHeight
+  },
+  Titulo: {
+    fontSize:65,
+    textAlign:'center',
+    color:'#E9F1FF',
+    paddingBottom:20,
+  },
+  Descricao:{
+    color:'#BCCFEF',
+    textAlign:'center',
+    paddingBottom:60
   }
 };
 
@@ -41,6 +59,7 @@ class SignInScreen extends Component {
           </Left>
         </Header>
         <LinearGradient
+<<<<<<< HEAD
           colors={["#9c44f9", "#726ef8", "#4fcef9"]}
           style={{
             flex: 1,
@@ -50,6 +69,24 @@ class SignInScreen extends Component {
           }}
         >
           <SignInContainer navigation={this.props.navigation} />
+=======
+          colors={['#3a7bd5', '#00d2ff']}
+          style={{
+            flex: 1, width: '100%', alignItems: 'center',
+            justifyContent: 'center'
+          }} > 
+          <View style={{width: '90%'}}>
+            <View >
+              <Text style={styles.Titulo}>iSecurity</Text>
+              <Text style={styles.Descricao}>Veja tudo que está acontecendo 
+                por dentro da cidade em que mora, ou um local que deseja visitar.</Text>
+              <SignInContainer navigation={this.props.navigation} />
+              <Text style={{ margin: 60, textAlign:'center', color:'#E9F1FF',fontWeight:'bold' }}>
+                A segurança em suas mãos!!</Text>
+            </View>
+          </View>
+          
+>>>>>>> develop
         </LinearGradient>
       </Container>
     );

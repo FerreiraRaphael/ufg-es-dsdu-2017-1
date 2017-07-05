@@ -27,7 +27,7 @@ class MapScreen extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon name="ios-search" />
-            <Input placeholder="Search" />
+            <Input placeholder="Pesquisar" />
             <Icon name="ios-people" />
           </Item>
           <Button transparent>
