@@ -54,7 +54,8 @@ O objetivo do projeto é poder fornecer informações que promovam a segurança 
 
 **Acesse seu o diretório de seu projeto pelo prompt de comando:**
 >* Digite `npm install`;
->* Execute seu projeto com `npm start`.
+>* Digite `npm i -g yarn`;
+>* Execute seu projeto com `yarn start`.
 
 **Testando a aplicação pelo dispositivo móvel:**
 >* Faça o download do app _Expo_ em seu dispositivo móvel;
