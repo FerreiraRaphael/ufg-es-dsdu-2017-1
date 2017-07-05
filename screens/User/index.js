@@ -78,7 +78,6 @@ class UserScreen extends Component {
 
   _handleMainButtonClick() {
     this.props.navigation.navigate("SignIn");
-    return;
   }
 
   render() {
@@ -115,7 +114,7 @@ class UserScreen extends Component {
               <H3 style={{ color: "#000" }}>Usuário</H3>
             </Item>
           </Header>
-          <UserList navigation={this.props.navigation}/>
+          <UserList userList={this.state.userList} navigation={this.props.navigation}/>
           <Button
             full
             danger

@@ -3,7 +3,8 @@ import {
   Text,
   List,
   ListItem,
-  Right
+  Right,
+  Button
 } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
 import { Constants } from "expo";
@@ -28,19 +29,34 @@ class UserList extends Component {
     };
   }
 
+  async _deleteCrime(key) {
+    await firebase.database().ref(`crime/${key}`).remove();
+  }
 
   render() {
+    let { userList } = this.props;
+    let keys = Object.keys(userList);
     return (
       <List>
         <ListItem itemHeader first>
-            <Text>Suas Ocorrências</Text>
+          <Text>Suas Ocorrências</Text>
         </ListItem>
-        <ListItem >
-            <Text>Hangover</Text>
-            <Right>
-            <Ionicons name="ios-trash-outline" size={32} />
-            </Right>
-        </ListItem>
+        {keys.map(key => {
+          let crime = userList[key];
+          return (
+            <ListItem
+              key={key}
+            >
+              <Text>{crime.title}</Text>
+              <Text numberOfLines={2}>{crime.description}</Text>
+              <Right>
+                <Button transparent onPress={() => this._deleteCrime(key)}>
+                  <Ionicons name="ios-trash-outline" size={32} />
+                </Button>
+              </Right>
+            </ListItem>
+          );
+        })}
       </List>
     );
   }
