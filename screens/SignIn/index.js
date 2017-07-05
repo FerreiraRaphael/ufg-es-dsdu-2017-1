@@ -11,14 +11,14 @@ import {
   Title,  
   Left 
 } from "native-base";
-import { StyleSheet, View, TextInput } from "react-native";
+import { StyleSheet, View, TextInput , Platform } from "react-native";
 import { Constants, MapView,LinearGradient } from "expo";
 import SignInContainer from '../../containers/SignIn';
 
 
 const styles = {
   container: {
-    paddingTop: Constants.statusBarHeight
+    paddingTop: Platform.OS === "ios" ? 0 : Constants.statusBarHeight
   },
   Titulo: {
     fontSize:65,

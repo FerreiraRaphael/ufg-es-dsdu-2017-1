@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Container, Content, Text, H3, Form, Header, Left, Button, Icon, Item, Label, Input } from "native-base";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View , Platform } from "react-native";
 import { Constants, MapView, LinearGradient } from "expo";
 import CrimeForm from '../../containers/CrimeForm';
 
 const styles = {
   container: {
-    paddingTop: Constants.statusBarHeight
+    paddingTop:  Platform.OS === "ios" ? 0 : Constants.statusBarHeight
   }
 };
 
