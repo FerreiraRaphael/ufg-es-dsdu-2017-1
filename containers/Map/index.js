@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, Platform, Dimensions } from "react-native"; 
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 import { MapView, Location, Permissions } from "expo";
 import firebase from "firebase";
 import GeoFire from "geofire";
 import config from "../../config/config";
-import { getAddress } from '../../services/maps';
+import { getAddress } from "../../services/maps";
 const { Marker } = MapView;
 
 class Map extends Component {
@@ -63,7 +63,11 @@ class Map extends Component {
     }
     if (this.state.aim) {
       let { longitude, latitude } = this.state.mapRegion;
-      this.props.navigation.navigate('Crime', { userId: this.state.user.uid, latitude, longitude });
+      this.props.navigation.navigate("Crime", {
+        userId: this.state.user.uid,
+        latitude,
+        longitude
+      });
     }
     let aim = !this.state.aim;
     this.setState({ aim });
@@ -128,35 +132,43 @@ class Map extends Component {
   _renderAim() {
     let { latitude, longitude } = this.state.mapRegion;
     let coordinate = { latitude, longitude };
-    return (
-      <Marker
-        coordinate={coordinate}
-      />
-    );
+    return <Marker coordinate={coordinate} />;
   }
 
   _renderMainButton() {
     if (!this.state.user) {
       return (
-        <Button style={{backgroundColor: '#478FBC'}}
-          full success
-          onPress={() => this._handleMainButtonClick()}>
+        <Button
+          style={{ backgroundColor: "#478FBC" }}
+          full
+          success
+          onPress={() => this._handleMainButtonClick()}
+        >
           <Text style={styles.text}>Entrar</Text>
           <Ionicons name="ios-log-in" size={32} color="#fff" />
         </Button>
       );
     }
     return (
-      <Button style={{backgroundColor: '#478FBC'}}
-        full success
-        onPress={() => this._handleMainButtonClick()}>
-        <Text style={styles.text}>{this.state.aim ? 'Aqui !' : 'Registrar Ocorência'}</Text>
-        <Ionicons name={this.state.aim ? "ios-locate-outline" : "ios-add"} size={32} color="#fff" />
+      <Button
+        style={{ backgroundColor: "#478FBC" }}
+        full
+        success
+        onPress={() => this._handleMainButtonClick()}
+      >
+        <Text style={styles.text}>
+          {this.state.aim ? "Aqui !" : "Registrar Ocorência"}
+        </Text>
+        <Ionicons
+          name={this.state.aim ? "ios-locate-outline" : "ios-add"}
+          size={32}
+          color="#fff"
+        />
       </Button>
     );
   }
 
-  _renderFAB() { }
+  _renderFAB() {}
 
   render() {
     return (
@@ -172,8 +184,9 @@ class Map extends Component {
         <Fab
           style={styles.fab}
           position="bottomLeft"
-          onPress={() => this._centerMap()}>
-          <Icon name="locate" style={{ color: '#478FBC' }}/>
+          onPress={() => this._centerMap()}
+        >
+          <Icon name="locate" style={{ color: "#478FBC" }} />
         </Fab>
         <View style={styles.actionButton}>
           {this._renderMainButton()}
@@ -183,7 +196,7 @@ class Map extends Component {
   }
 }
 
-const { height, width } = Dimensions.get('window'); 
+const { height, width } = Dimensions.get("window");
 
 const styles = {
   map: {
@@ -191,16 +204,17 @@ const styles = {
     marginBottom: 100
   },
   fab: {
-    backgroundColor: '#F9FCFF',
-    bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100, 
+    backgroundColor: "#F9FCFF",
+    bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100,
     left: -15
   },
   actionButton: {
     width: "100%",
     position: "absolute",
     left: 0,
-    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80, 
-    justifyContent: 'center', alignItems: 'center'
+    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80,
+    justifyContent: "center",
+    alignItems: "center"
   },
   button: {
     width: 40
