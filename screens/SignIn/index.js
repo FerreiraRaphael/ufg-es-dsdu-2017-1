@@ -6,7 +6,10 @@ import {
   H3,
   Form,
   Icon,
-  Button
+  Button,
+  Header, 
+  Title,  
+  Left 
 } from "native-base";
 import { StyleSheet, View, TextInput } from "react-native";
 import { Constants, MapView,LinearGradient } from "expo";
