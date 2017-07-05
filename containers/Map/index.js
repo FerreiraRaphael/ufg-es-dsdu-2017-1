@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Container, Icon, Fab, View, Button, Text } from "native-base";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { StyleSheet, Platform, Dimensions } from "react-native"; 
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, Platform, Dimensions } from "react-native";
 import { MapView, Location, Permissions } from "expo";
 import firebase from "firebase";
 import GeoFire from "geofire";
 import config from "../../config/config";
-import { getAddress } from '../../services/maps';
+import { getAddress } from "../../services/maps";
 const { Marker } = MapView;
 
 class Map extends Component {
@@ -14,7 +14,6 @@ class Map extends Component {
     super(props);
     this.state = {
       user: false,
-      locationResult: false,
       mapRegion: {
         latitude: -16.6815803,
         longitude: -49.258389,
@@ -38,13 +37,14 @@ class Map extends Component {
   async _getLocation() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
-      this.setState({
-        locationResult: false
-      });
+      this.props.onLocationChange(false);
+      // this.setState({
+      //   locationResult: false
+      // });
     }
 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ locationResult: location });
+    let locationResult = await Location.getCurrentPositionAsync({});
+    this.props.onLocationChange(locationResult);
     this._centerMap();
   }
 
@@ -62,8 +62,12 @@ class Map extends Component {
       return;
     }
     if (this.state.aim) {
-      let { longitude, latitude } = this.state.mapRegion;
-      this.props.navigation.navigate('Crime', { userId: this.state.user.uid, latitude, longitude });
+      let { longitude, latitude } = this.props.mapRegion;
+      this.props.navigation.navigate("Crime", {
+        userId: this.state.user.uid,
+        latitude,
+        longitude
+      });
     }
     let aim = !this.state.aim;
     this.setState({ aim });
@@ -71,7 +75,7 @@ class Map extends Component {
 
   async _createNewCrime() {
     let key = firebase.database().ref("crimes").push().key;
-    let { latitude, longitude } = this.state.mapRegion;
+    let { latitude, longitude } = this.props.mapRegion;
 
     let googleResult = await getAddress({ longitude, latitude });
     let crime = {
@@ -90,8 +94,9 @@ class Map extends Component {
   }
 
   _centerMap() {
-    let { longitude, latitude } = this.state.locationResult.coords;
-    let mapRegion = Object.assign({}, this.state.mapRegion, {
+    //TODO: ISSUE #4 
+    let { longitude, latitude } = this.props.locationResult.coords;
+    let mapRegion = Object.assign({}, this.props.mapRegion, {
       longitude,
       latitude
     });
@@ -128,52 +133,61 @@ class Map extends Component {
   _renderAim() {
     let { latitude, longitude } = this.state.mapRegion;
     let coordinate = { latitude, longitude };
-    return (
-      <Marker
-        coordinate={coordinate}
-      />
-    );
+    return <Marker coordinate={coordinate} />;
   }
 
   _renderMainButton() {
     if (!this.state.user) {
       return (
-        <Button style={{backgroundColor: '#478FBC'}}
-          full success
-          onPress={() => this._handleMainButtonClick()}>
+        <Button
+          style={{ backgroundColor: "#478FBC" }}
+          full
+          success
+          onPress={() => this._handleMainButtonClick()}
+        >
           <Text style={styles.text}>Entrar</Text>
           <Ionicons name="ios-log-in" size={32} color="#fff" />
         </Button>
       );
     }
     return (
-      <Button style={{backgroundColor: '#478FBC'}}
-        full success
-        onPress={() => this._handleMainButtonClick()}>
-        <Text style={styles.text}>{this.state.aim ? 'Aqui !' : 'Registrar Ocorência'}</Text>
-        <Ionicons name={this.state.aim ? "ios-locate-outline" : "ios-add"} size={32} color="#fff" />
+      <Button
+        style={{ backgroundColor: "#478FBC" }}
+        full
+        success
+        onPress={() => this._handleMainButtonClick()}
+      >
+        <Text style={styles.text}>
+          {this.state.aim ? "Aqui !" : "Registrar Ocorência"}
+        </Text>
+        <Ionicons
+          name={this.state.aim ? "ios-locate-outline" : "ios-add"}
+          size={32}
+          color="#fff"
+        />
       </Button>
     );
   }
 
-  _renderFAB() { }
+  _renderFAB() {}
 
   render() {
     return (
       <Container>
         <MapView
           style={styles.map}
-          region={this.state.mapRegion}
+          region={this.props.mapRegion}
           provider="google"
-          onRegionChange={this._handleMapRegionChange}
+          onRegionChange={(mapRegion) => this.props.onMapRegionChange(mapRegion)}
         >
           {this.state.aim ? this._renderAim() : this._renderMarkers()}
         </MapView>
         <Fab
           style={styles.fab}
           position="bottomLeft"
-          onPress={() => this._centerMap()}>
-          <Icon name="locate" style={{ color: '#478FBC' }}/>
+          onPress={() => this._centerMap()}
+        >
+          <Icon name="locate" style={{ color: "#478FBC" }} />
         </Fab>
         <View style={styles.actionButton}>
           {this._renderMainButton()}
@@ -183,7 +197,7 @@ class Map extends Component {
   }
 }
 
-const { height, width } = Dimensions.get('window'); 
+const { height, width } = Dimensions.get("window");
 
 const styles = {
   map: {
@@ -191,16 +205,17 @@ const styles = {
     marginBottom: 100
   },
   fab: {
-    backgroundColor: '#F9FCFF',
-    bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100, 
+    backgroundColor: "#F9FCFF",
+    bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100,
     left: -15
   },
   actionButton: {
     width: "100%",
     position: "absolute",
     left: 0,
-    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80, 
-    justifyContent: 'center', alignItems: 'center'
+    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80,
+    justifyContent: "center",
+    alignItems: "center"
   },
   button: {
     width: 40
