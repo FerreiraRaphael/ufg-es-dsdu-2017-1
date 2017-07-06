@@ -14,12 +14,6 @@ class Map extends Component {
     super(props);
     this.state = {
       user: false,
-      mapRegion: {
-        latitude: -16.6815803,
-        longitude: -49.258389,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      },
       crimes: [],
       aim: false
     };
@@ -36,8 +30,10 @@ class Map extends Component {
 
   async _getLocation() {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
+
     if (status !== "granted") {
       this.props.onLocationChange(false);
+      return;
       // this.setState({
       //   locationResult: false
       // });
@@ -73,34 +69,18 @@ class Map extends Component {
     this.setState({ aim });
   }
 
-  async _createNewCrime() {
-    let key = firebase.database().ref("crimes").push().key;
-    let { latitude, longitude } = this.props.mapRegion;
-
-    let googleResult = await getAddress({ longitude, latitude });
-    let crime = {
-      title: "x",
-      description: "x",
-      userId: this.state.user.uid,
-      latitude,
-      longitude
-    };
-    if (googleResult.results[0]) {
-      Object.assign(crime, {
-        address: googleResult.results[0].formatted_address
-      });
+  async _centerMap() {
+    if(!this.props.locationResult) {
+      await this._getLocation();
+  
+      return;
     }
-    firebase.database().ref("crimes/" + key).set(crime);
-  }
-
-  _centerMap() {
-    //TODO: ISSUE #4 
     let { longitude, latitude } = this.props.locationResult.coords;
     let mapRegion = Object.assign({}, this.props.mapRegion, {
       longitude,
       latitude
     });
-    this.setState({ mapRegion });
+    this.props.onMapRegionChange(mapRegion);
   }
 
   _handleCrimesChange(snap) {
@@ -130,8 +110,12 @@ class Map extends Component {
     });
   }
 
+  _handleFabClick() {
+    this.state.aim ? this.setState({aim: false}) : this._centerMap();
+  }
+
   _renderAim() {
-    let { latitude, longitude } = this.state.mapRegion;
+    let { latitude, longitude } = this.props.mapRegion;
     let coordinate = { latitude, longitude };
     return <Marker coordinate={coordinate} />;
   }
@@ -158,7 +142,7 @@ class Map extends Component {
         onPress={() => this._handleMainButtonClick()}
       >
         <Text style={styles.text}>
-          {this.state.aim ? "Aqui !" : "Registrar Ocorência"}
+          {this.state.aim ? "Aqui !" : "Registrar Ocorrência"}
         </Text>
         <Ionicons
           name={this.state.aim ? "ios-locate-outline" : "ios-add"}
@@ -169,11 +153,13 @@ class Map extends Component {
     );
   }
 
-  _renderFAB() {}
+  _renderFAB() {
+
+  }
 
   render() {
     return (
-      <Container>
+      <Container style={{flex:1}}>
         <MapView
           style={styles.map}
           region={this.props.mapRegion}
@@ -184,10 +170,10 @@ class Map extends Component {
         </MapView>
         <Fab
           style={styles.fab}
-          position="bottomLeft"
-          onPress={() => this._centerMap()}
+          position="bottomRight"
+          onPress={() => this._handleFabClick()}
         >
-          <Icon name="locate" style={{ color: "#478FBC" }} />
+          <Icon name={this.state.aim ? "close" : "locate"} style={{ color: "#478FBC" }} />
         </Fab>
         <View style={styles.actionButton}>
           {this._renderMainButton()}
@@ -202,18 +188,18 @@ const { height, width } = Dimensions.get("window");
 const styles = {
   map: {
     flex: 1,
-    marginBottom: 100
+    // marginBottom: 100
   },
   fab: {
     backgroundColor: "#F9FCFF",
-    bottom: Platform.OS === "ios" ? 50 + 130 : 65 + 100,
-    left: -15
+    bottom: 50,
+    left: 0
   },
   actionButton: {
     width: "100%",
     position: "absolute",
     left: 0,
-    bottom: Platform.OS === "ios" ? 50 + 100 : 50 + 80,
+    bottom: 0,
     justifyContent: "center",
     alignItems: "center"
   },

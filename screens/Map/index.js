@@ -59,17 +59,15 @@ class MapScreen extends Component {
             <Text>Buscar</Text>
           </Button>
         </Header>
-        <Content>
-          <Map
-            navigation={this.props.navigation}
-            onLocationChange={locationResult => {
-              this.setState({ locationResult });
-            }}
-            locationResult={this.state.locationResult}
-            mapRegion={this.state.mapRegion}
-            onMapRegionChange={mapRegion => this.setState({ mapRegion })}
-          />
-        </Content>
+        <Map
+          navigation={this.props.navigation}
+          onLocationChange={locationResult => {
+            this.setState({ locationResult });
+          }}
+          locationResult={this.state.locationResult}
+          mapRegion={this.state.mapRegion}
+          onMapRegionChange={mapRegion => { this.setState({ mapRegion }) }}
+        />
       </Container>
     );
   }

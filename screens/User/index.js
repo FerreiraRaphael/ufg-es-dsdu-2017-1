@@ -14,11 +14,16 @@ import {
 import firebase from "firebase";
 import { Ionicons } from "@expo/vector-icons";
 import { Constants } from "expo";
+import { Platform } from 'react-native';
 import UserList from "../../containers/UserList";
+
 const styles = {
   container: {
-    paddingTop: 0,
-    marginBottom: 0
+    paddingTop: Platform.OS === "ios" ? 0 : Constants.statusBarHeight,
+    marginBottom: 5,
+  },
+  header: {
+    backgroundColor: '#fff'
   },
   paragraph: {
     margin: 24,
@@ -37,16 +42,7 @@ class UserScreen extends Component {
     super(props);
     this.state = {
       user: false,
-      locationResult: false,
-      mapRegion: {
-        latitude: -16.6815803,
-        longitude: -49.258389,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      },
-      crimes: [],
-      aim: false,
-      userList : []
+      userList: null
     };
   }
 
@@ -84,7 +80,7 @@ class UserScreen extends Component {
     if (!this.state.user) {
       return (
         <Container style={styles.container}>
-          <Header>
+          <Header style={styles.header}>
             <Item>
               <H3 style={{ color: "#000" }}>Usuário</H3>
             </Item>
@@ -109,7 +105,7 @@ class UserScreen extends Component {
     } else {
       return (
         <Container style={styles.container}>
-          <Header>
+          <Header style={styles.header}>
             <Item>
               <H3 style={{ color: "#000" }}>Usuário</H3>
             </Item>
