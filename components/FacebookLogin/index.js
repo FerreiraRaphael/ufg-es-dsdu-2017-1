@@ -14,8 +14,8 @@ const FacebookLogin = ({
       full 
       onPress={onPress}
       style={styles.button}>
-      <Icon name="logo-facebook"/>
-      <Text>Facebook</Text>
+      <Icon name="logo-facebook" style={{color:'#497ED3'}}/>
+      <Text style={{color: '#497ED3'}}>Entrar com o Facebook</Text>
     </Button>
   
 

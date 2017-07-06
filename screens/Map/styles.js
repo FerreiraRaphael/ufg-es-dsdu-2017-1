@@ -1,8 +1,10 @@
 import { Constants } from "expo";
+import { Platform, Dimensions } from 'react-native';
+const { height, width } = Dimensions.get("window");
 
 export default {
     container: {
-        paddingTop: Constants.statusBarHeight,
-        marginBottom: 5
-    }
+        paddingTop: Platform.OS === "ios" ? 0 : Constants.statusBarHeight,
+        height: height - 100 
+    },
 }
