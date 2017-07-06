@@ -3,11 +3,16 @@ import {
   Text,
   List,
   ListItem,
-  Right
+  Right,
+  Button,
+  H3,
+  Container,
+  Content
 } from "native-base";
 import { Ionicons } from '@expo/vector-icons';
-import { Constants } from "expo";
 import firebase from 'firebase';
+import { Constants } from "expo";
+import { Platform } from 'react-native';
 
 const styles = {
   container: {
@@ -28,20 +33,36 @@ class UserList extends Component {
     };
   }
 
+  async _deleteCrime(key) {
+    await firebase.database().ref(`crimes/${key}`).remove();
+  }
 
   render() {
+    let { userList } = this.props;
+    let keys = Object.keys(userList || {});
     return (
-      <List>
-        <ListItem itemHeader first>
+      <Content>
+        <List>
+          <ListItem itemHeader first>
             <Text>Suas Ocorrências</Text>
-        </ListItem>
-        <ListItem >
-            <Text>Hangover</Text>
-            <Right>
-            <Ionicons name="ios-trash-outline" size={32} />
-            </Right>
-        </ListItem>
-      </List>
+          </ListItem>
+          {keys.map(key => {
+            let crime = userList[key];
+            return (
+              <ListItem
+                key={key}
+              >
+                <Text numberOfLines={1}>{crime.title}</Text>
+                <Right>
+                  <Button transparent onPress={() => this._deleteCrime(key)}>
+                    <Ionicons name="ios-trash-outline" size={32} />
+                  </Button>
+                </Right>
+              </ListItem>
+            );
+          })}
+        </List>
+      </Content>
     );
   }
 }
