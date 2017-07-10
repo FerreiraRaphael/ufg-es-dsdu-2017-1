@@ -24,8 +24,8 @@ class MapScreen extends Component {
       mapRegion: {
         latitude: -16.6815803,
         longitude: -49.258389,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
+        latitudeDelta: 0.0022,
+        longitudeDelta: 0.0021
       }
     };
   }
@@ -33,15 +33,15 @@ class MapScreen extends Component {
   componentDidMount() {
     let params = this.props.navigation.state.params;
     if (!params) return;
-    let { latitude, longitude } = params;
+    let { latitude, longitude, latitudeDelta, longitudeDelta } = params;
   }
 
   _goToSearch() {
     let location = this.state.locationResult;
     let params = {};
     if (location) {
-      let { latitude, longitude } = this.state.locationResult.coords;
-      params = Object.assign({}, params, { latitude, longitude });
+      let { latitude, longitude, latitudeDelta, longitudeDelta } = this.state.locationResult.coords;
+      params = Object.assign({}, params, { latitude, longitude, latitudeDelta, longitudeDelta  });
     }
     this.props.navigation.navigate("Search", params);
   }

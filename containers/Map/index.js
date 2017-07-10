@@ -58,11 +58,13 @@ class Map extends Component {
       return;
     }
     if (this.state.aim) {
-      let { longitude, latitude } = this.props.mapRegion;
+      let { longitude, latitude, latitudeDelta, longitudeDelta  } = this.props.mapRegion;
       this.props.navigation.navigate("Crime", {
         userId: this.state.user.uid,
         latitude,
-        longitude
+        longitude, 
+        latitudeDelta, 
+        longitudeDelta 
       });
     }
     let aim = !this.state.aim;
@@ -72,13 +74,15 @@ class Map extends Component {
   async _centerMap() {
     if(!this.props.locationResult) {
       await this._getLocation();
-  
       return;
     }
-    let { longitude, latitude } = this.props.locationResult.coords;
+    let { longitude, latitude} = this.props.locationResult.coords;
+    let { latitudeDelta, longitudeDelta } = {latitudeDelta: 0.0085,longitudeDelta: 0.0085}
     let mapRegion = Object.assign({}, this.props.mapRegion, {
       longitude,
-      latitude
+      latitude, 
+      latitudeDelta, 
+      longitudeDelta 
     });
     this.props.onMapRegionChange(mapRegion);
   }
@@ -97,8 +101,8 @@ class Map extends Component {
     let keys = Object.keys(crimes);
     return keys.map(key => {
       let crime = crimes[key];
-      let { latitude, longitude } = crime;
-      let coordinate = { latitude, longitude };
+      let { latitude, longitude, latitudeDelta, longitudeDelta  } = crime;
+      let coordinate = { latitude, longitude, latitudeDelta, longitudeDelta  };
       return (
         <Marker
           key={key}
@@ -111,12 +115,12 @@ class Map extends Component {
   }
 
   _handleFabClick() {
-    this.state.aim ? this.setState({aim: false}) : this._centerMap();
+    this.state.aim ? this.setState({aim: false}): this._centerMap();
   }
 
   _renderAim() {
-    let { latitude, longitude } = this.props.mapRegion;
-    let coordinate = { latitude, longitude };
+    let { latitude, longitude, latitudeDelta, longitudeDelta  } = this.props.mapRegion;
+    let coordinate = { latitude, longitude, latitudeDelta, longitudeDelta  };
     return <Marker coordinate={coordinate} />;
   }
 
