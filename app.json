@@ -1,5 +1,15 @@
 {
-  "expo": {
-    "sdkVersion": "17.0.0"
-  }
-}
+   "expo": {
+    "name": "iSecurity",
+    "icon": "./assets/icons/ios/iTunesArtwork@1x.png",
+    "version": "1.0.0",
+    "slug": "ufg-isecurity",
+    "sdkVersion": "17.0.0",
+    "ios": {
+      "bundleIdentifier": "com.ufg.isecurity"
+    },
+    "android": {
+      "package": "com.ufg.isecurity"
+    }
+   }
+ }
