@@ -33,7 +33,8 @@ class MapScreen extends Component {
   componentDidMount() {
     let params = this.props.navigation.state.params;
     if (!params) return;
-    let { latitude, longitude, latitudeDelta, longitudeDelta } = params;
+    let mapRegion = Object.assign({}, this.state.mapRegion, params);
+    this.setState({ mapRegion });
   }
 
   _goToSearch() {
@@ -41,7 +42,7 @@ class MapScreen extends Component {
     let params = {};
     if (location) {
       let { latitude, longitude, latitudeDelta, longitudeDelta } = this.state.locationResult.coords;
-      params = Object.assign({}, params, { latitude, longitude, latitudeDelta, longitudeDelta  });
+      params = Object.assign({}, params, { latitude, longitude, latitudeDelta, longitudeDelta });
     }
     this.props.navigation.navigate("Search", params);
   }
