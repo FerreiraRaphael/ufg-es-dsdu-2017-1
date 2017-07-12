@@ -47,8 +47,11 @@ class SearchScreen extends Component {
     this.setState({ latitude, longitude, results, loading: false });
   }
 
-  _handleItemPress(event) {
-    this.props.navigation.navigate("Map", {teste: ''});
+  _handleItemPress(result) {
+    this.props.navigation.navigate("Map", {
+      latitude: result.geometry.location.lat,
+      longitude: result.geometry.location.lng
+    });
   }
 
   _renderResultList() {
@@ -64,8 +67,6 @@ class SearchScreen extends Component {
             <ListItem
               key={result.place_id}
               onPress={() => this._handleItemPress(result)}
-              latitude={result.geometry.location.lat}
-              longitude={result.geometry.location.lng}
             >
               <Text numberOfLines={2}>{result.formatted_address}</Text>
             </ListItem>
