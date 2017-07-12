@@ -9,7 +9,12 @@
       "bundleIdentifier": "com.ufg.isecurity"
     },
     "android": {
-      "package": "com.ufg.isecurity"
+      "package": "com.ufg.isecurity",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBhVKXAvzkAUPbeADsp0X5Ha_GV0RqT1PI"
+        }
+      }
     }
    }
  }
