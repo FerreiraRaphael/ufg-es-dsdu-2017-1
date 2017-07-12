@@ -1,7 +1,7 @@
 {
    "expo": {
     "name": "iSecurity",
-    "icon": "./assets/icons/ios/iTunesArtwork@1x.png",
+    "icon": "./assets/icons/android/mipmap-hdpi/ic_launcher.png",
     "version": "1.0.0",
     "slug": "ufg-isecurity",
     "sdkVersion": "17.0.0",
@@ -9,7 +9,12 @@
       "bundleIdentifier": "com.ufg.isecurity"
     },
     "android": {
-      "package": "com.ufg.isecurity"
+      "package": "com.ufg.isecurity",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBhVKXAvzkAUPbeADsp0X5Ha_GV0RqT1PI"
+        }
+      }
     }
    }
  }

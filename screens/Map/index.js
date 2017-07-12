@@ -24,24 +24,27 @@ class MapScreen extends Component {
       mapRegion: {
         latitude: -16.6815803,
         longitude: -49.258389,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }
+        latitudeDelta: 0.0022,
+        longitudeDelta: 0.0021
+      },
+      searchResult: false
     };
   }
 
   componentDidMount() {
     let params = this.props.navigation.state.params;
     if (!params) return;
-    let { latitude, longitude } = params;
+    let mapRegion = Object.assign({}, this.state.mapRegion, params);
+    let searchResult = true;
+    this.setState({ mapRegion, searchResult });
   }
 
   _goToSearch() {
     let location = this.state.locationResult;
     let params = {};
     if (location) {
-      let { latitude, longitude } = this.state.locationResult.coords;
-      params = Object.assign({}, params, { latitude, longitude });
+      let { latitude, longitude, latitudeDelta, longitudeDelta } = this.state.locationResult.coords;
+      params = Object.assign({}, params, { latitude, longitude, latitudeDelta, longitudeDelta });
     }
     this.props.navigation.navigate("Search", params);
   }
@@ -67,6 +70,7 @@ class MapScreen extends Component {
           locationResult={this.state.locationResult}
           mapRegion={this.state.mapRegion}
           onMapRegionChange={mapRegion => { this.setState({ mapRegion }) }}
+          searchResult={this.state.searchResult}
         />
       </Container>
     );

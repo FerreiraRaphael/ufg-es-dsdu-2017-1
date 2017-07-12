@@ -37,16 +37,18 @@ class CrimeForm extends Component {
       address: "",
       userId: "",
       latitude: "",
-      longitude: ""
+      longitude: "", 
+      latitudeDelta: "", 
+      longitudeDelta: "" 
     };
   }
 
   async componentDidMount() {
-    let { userId, latitude, longitude } = this.props.navigation.state.params;
-    let googleResults = await getAddress({ latitude, longitude });
+    let { userId, latitude, longitude, latitudeDelta, longitudeDelta  } = this.props.navigation.state.params;
+    let googleResults = await getAddress({ latitude, longitude, latitudeDelta, longitudeDelta  });
 
     let address = googleResults.results[0].formatted_address;
-    this.setState({ userId, address, latitude, longitude, ready: true });
+    this.setState({ userId, address, latitude, longitude, latitudeDelta, longitudeDelta, ready: true });
   }
 
   async _handleSaveClick() {
