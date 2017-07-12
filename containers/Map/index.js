@@ -34,14 +34,12 @@ class Map extends Component {
     if (status !== "granted") {
       this.props.onLocationChange(false);
       return;
-      // this.setState({
-      //   locationResult: false
-      // });
     }
 
     let locationResult = await Location.getCurrentPositionAsync({});
     this.props.onLocationChange(locationResult);
-    this._centerMap();
+    if(!this.props.searchResult)
+      this._centerMap();
   }
 
   _handleUserAuth(user) {
